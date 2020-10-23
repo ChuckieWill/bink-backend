@@ -18,4 +18,40 @@ class ParameterException extends HttpException{
   }
 }
 
-module.exports = {HttpException,ParameterException}
+//操作成功类，当操作成功是返回给前端成功提示
+class Success extends HttpException{
+  constructor(msg, errorCode){
+    super()
+    this.code = 201 //操作成功状态码
+    this.msg = msg || 'ok',
+    this.errorCode = errorCode || 0
+  }
+}
+
+//资源未找到错误类，当用户名没有查找到时等
+class NotFound extends HttpException{
+  constructor(msg, errorCode){
+    super()
+    this.code = 404 //资源未找到状态码
+    this.msg = msg || '资源未找到',
+    this.errorCode = errorCode || 10000
+  }
+}
+
+//授权失败错误类，密码错误等
+class AuthFailed extends HttpException{
+  constructor(msg, errorCode){
+    super()
+    this.code = 401 //资源未找到状态码
+    this.msg = msg || '授权失败',
+    this.errorCode = errorCode || 10004
+  }
+}
+
+module.exports = {
+  HttpException,
+  ParameterException,
+  Success,
+  NotFound,
+  AuthFailed
+}

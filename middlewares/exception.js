@@ -1,16 +1,22 @@
 const {HttpException} = require('../core/http-exception')
+const {environment} = require('../config/config')
 
 //全局错误处理中间件
 const catchError = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    //判断为开发环境则抛出异常，便于终端查看错误原因
-    if(global.config.environment === 'dev'){
+    //判断是否为自定义已知错误
+    const isHttpException = error instanceof HttpException
+    //判断是否为开发环境
+    const isDev = global.config.environment === 'dev'
+    // const isDev = environment === 'dev'
+    //判断为开发环境且不是自定义已知错误则抛出异常，便于终端查看错误原因
+    if(isDev && !isHttpException){
       throw error
     }
     //判断为已知错误，抛出的错误是封装的http错误类的实例
-    if(error instanceof HttpException){
+    if(isHttpException){
       //已知错误的处理
       ctx.body = {
         msg: error.msg,  //错误描述

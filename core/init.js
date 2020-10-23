@@ -8,6 +8,7 @@ class InitManager {
     InitManager.app = app
     InitManager.initLoadRouters()
     InitManager.loadHttpException()
+    InitManager.loadConfig()
   }
 
   //将所有路由添加为中间件
