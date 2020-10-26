@@ -11,7 +11,7 @@ const {
 
 //在数据库中通过user模型新建表单
 class User extends Model {
-  //登录校验
+  //邮箱密码登录校验
   static async verifyEmailPassword(email, plainPassword){
     const user = await User.findOne({
       where: {
@@ -27,6 +27,23 @@ class User extends Model {
       throw new global.errs.AuthFailed('密码错误')
     }
     return user
+  }
+
+  //微信小程序登录查询数据库
+  static async getUserByOpnid(openid){
+    const user = await User.findOne({
+      where:{
+        openid
+      }
+    })
+    return user
+  }
+
+  //微信小程序注册写入数据库
+  static async registerByOpenid(openid){
+    return await User.create({
+      openid
+    })
   }
 }
 
