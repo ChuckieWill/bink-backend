@@ -21,5 +21,12 @@ module.exports = {
     appId: '',//小程序 appId
     appSecret: '',//小程序 appSecret
     loginUrl: 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code'
+  },
+  //图书查询地址
+  book:{
+    //http://yushu.talelin.com/book/9787111075752/detail
+    //http://book.feelyou.top/isbn/%s
+    isbnUrl: 'http://book.feelyou.top/isbn/%s',//ISBN图书查询接口
+    searchUrl: 'https://book.feelyou.top/search/%s'//图书名称搜索接口
   }
 }

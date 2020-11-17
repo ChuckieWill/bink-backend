@@ -22,7 +22,18 @@ const LoginAuth = {
   SUPER_ADMIN : 17, //超级管理可访问
 }
 
+
+//期刊类型
+const ArtType = {
+  MOVIE: 100,
+  MUSIC: 200,
+  SENTENCE: 300,
+  BOOK: 400,
+  isTheType
+}
+
 module.exports = {
   LoginType,
-  LoginAuth
+  LoginAuth,
+  ArtType
 }

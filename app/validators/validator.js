@@ -6,7 +6,7 @@ const {
 //导入数据库操作模型
 const { User } = require('../models/user')
 //导入登录方式枚举
-const {LoginType} = require('../lib/enum')
+const {LoginType, ArtType} = require('../lib/enum')
 
 //正整数校验类
 class PositiveIntegerValidator extends LinValidator {
@@ -95,21 +95,75 @@ class TokenValidator extends LinValidator {
         max: 128
       })
     ]
+    //登录方式校验
+    this.validateType = checkLoginType
   }
-  //登录方式校验
-  validateLoginType(vals){
-    if(!vals.body.type){
-      throw new Error('type参数必须传入')
-    }
-    if(!LoginType.isTheType(vals.body.type)){
-      throw new Error('type参数不合法')
-    }
+  
+}
+
+//参数不为空校验器
+class NotEmptyValidator extends LinValidator {
+  constructor(){
+    super()
+    this.token = [
+      new Rule('isLength','不允许为空',{min:1})
+    ]
   }
- 
+}
+
+//点赞参数校验
+class LikeValidator extends PositiveIntegerValidator {
+  constructor(){
+    super()
+    this.validateType = checkArtType
+  }
+}
+
+//获取点赞信息参数校验
+class ClassicValidator extends LikeValidator{
+
+}
+
+//新增短评参数校验
+class AddCommentValidator extends PositiveIntegerValidator{
+  constructor(){
+    super()
+    this.content = [
+      new Rule('isLength','必须在1到12个字符之间',{
+          min:1,
+          max:12
+      })
+    ]
+  }
+}
+
+//登录方式校验
+function checkLoginType(vals){
+  if(!vals.body.type){
+    throw new Error('type参数必须传入')
+  }
+  if(!LoginType.isTheType(vals.body.type)){
+    throw new Error('type参数不合法')
+  }
+}
+
+//书刊类型校验
+function checkArtType(vals){
+  const type = vals.body.type || vals.path.type
+  if(!type){
+    throw new Error('type参数必须传入')
+  }
+  if(!ArtType.isTheType(type)){
+    throw new Error('type参数不合法')
+  }
 }
 
 module.exports = {
   PositiveIntegerValidator,
   RegisterValidater,
-  TokenValidator
+  TokenValidator,
+  NotEmptyValidator,
+  LikeValidator,
+  ClassicValidator,
+  AddCommentValidator
 }
