@@ -75,7 +75,7 @@
 
 4. 终端根目录下启动项目：`node app.js`或`nodemon app.js`
 
-### [接口文档]()
+### [接口文档](https://github.com/ChuckieWill/bink-backend/blob/master/API.md)
 
 ### 数据库结构
 
